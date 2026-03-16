@@ -1077,10 +1077,13 @@ export const updateUserBroadcastWithNotif = (updatedParagraphs,user,selectedChat
                  await contactsSnapshot.update({
                    queryMsg: updatedUserQueryMsgArray,
                }).then(() => contactDoc.get())
-        .then((doc) => {
+        .then(async(doc) => {
           if (doc.exists) {
-            //updating the user to have the latest query msg
-            dispatch(loginSuccess({ user:doc.data(), uid:doc.data().uid }))
+            //updating the user to have the latest query msg - mar -16 -2026 we dont need this query msg, just to update the subject !
+           // dispatch(loginSuccess({ user:user, uid:user.uid }))
+
+           //what we need to do is update all contacts, so the new subject can show
+            await dispatch(fetchAllContactForOneUser(user.uid))
           }
         })
           

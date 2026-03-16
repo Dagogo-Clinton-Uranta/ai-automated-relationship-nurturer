@@ -317,7 +317,7 @@ console.log("INTERACTIONS ON INBOX SIDEBAR--->",interactions)
                                             if ((result + (result ? " " : "") + word).length > 18) break;
                                             result += (result ? " " : "") + word;
                                           }
-                                          return result +" "+interaction.subject.slice(interaction.subject.length-2,interaction.subject.length) ;
+                                          return result/* +" "+interaction.subject.slice(interaction.subject.length-2,interaction.subject.length)*/ ;
                                         })()
                                     )
 

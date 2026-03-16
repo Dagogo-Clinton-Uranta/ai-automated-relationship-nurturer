@@ -916,7 +916,7 @@ if (allContacts.length > 0) {
                                 if ((result + (result ? " " : "") + word).length > 24) break;
                                 result += (result ? " " : "") + word;
                               }
-                              return result +" "+item.title.slice(item.title.length-2,item.title.length) ;
+                              return result/* +" "+item.title.slice(item.title.length-2,item.title.length)*/ ;
                             })()
                         )}
                      </p>
