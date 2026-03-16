@@ -499,6 +499,11 @@ console.log("WE SET PARAGRAPHS TO ---->",editedParagraphs)
           ));
         }
 };
+
+
+const stripEmojis = (text = "") => text.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "");
+
+
   return (
     <div className={clsx('flex flex-col relative', props.className)}>
         <ToastContainer
@@ -520,15 +525,11 @@ console.log("WE SET PARAGRAPHS TO ---->",editedParagraphs)
         
             {/**SUBJECT CHANGING WHITE BOX -START */
                         
-    <Box sx={{display:onlyPendingMessages && onlyPendingMessages.length > 0?"flex":"none",flexDirection:"column",justifyContent:"flex-start",alignItems:"flex-start",marginLeft:{xs:"-0rem", sm:"7.5rem"},marginTop:"2rem",marginBottom:"4rem",backgroundColor:"#fff",borderRadius:"2rem",width:{xs:"55%",sm:"73%",md:"53rem"},maxWidth:{xs:"60%",sm:"78.5%"},padding:"1rem",paddingTop:"3rem"}}>
+    <Box sx={{display:onlyPendingMessages && onlyPendingMessages.length > 0?"flex":"none",flexDirection:"column",justifyContent:"flex-start",alignItems:"flex-start",marginLeft:{xs:"-0rem", sm:"7.5rem"},marginTop:"2rem",marginBottom:"1rem",backgroundColor:"#fff",borderRadius:"2rem",height:"max-content",width:{xs:"55%",sm:"73%",md:"53rem"},maxWidth:{xs:"60%",sm:"78.5%"},padding:"1rem",paddingTop:"3rem"}}>
   
 
     <>
-             <Typography
-              style={{fontWeight:700,fontSize:"1.2rem",marginBottom:"1rem"}}
-             >
-               Subject:
-         </Typography>
+           
 
     <FormControl component="fieldset">
       
@@ -540,20 +541,29 @@ console.log("WE SET PARAGRAPHS TO ---->",editedParagraphs)
      
      <TextField
            variant="standard"
-           value={paragraphs.subject || ""}
-           onChange={(e)=>{
-             setParagraphs({
-               ...paragraphs,
-               subject: e.target.value
-             })
-           }}
+           //value={paragraphs.subject || ""}
+           value={stripEmojis(paragraphs.subject || "")}
+           onChange={(e) => {
+
+            const removeEmojis = (text) =>
+              text.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "");
+        
+            const cleanValue = removeEmojis(e.target.value);
+        
+            setParagraphs({
+              ...paragraphs,
+              subject: cleanValue
+            });
+          }}
+
            InputProps={{
              disableUnderline: true,
              style: {
-               fontWeight: 700,
+               fontWeight: 400,
                fontSize: "1.2rem",
                marginBottom: "1rem",
-               padding: 0
+               padding: 0,
+               paddingLeft:"1rem"
              }
            }}
            sx={{
