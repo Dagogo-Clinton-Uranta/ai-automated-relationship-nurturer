@@ -554,6 +554,9 @@ const stripEmojis = (text = "") => text.replace(/[\p{Emoji_Presentation}\p{Exten
               ...paragraphs,
               subject: cleanValue
             });
+
+
+            dispatch(saveEditedParagraphs({...paragraphs,subject: cleanValue}))
           }}
 
            InputProps={{

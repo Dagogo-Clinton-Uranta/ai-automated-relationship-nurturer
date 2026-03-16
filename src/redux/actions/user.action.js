@@ -966,15 +966,15 @@ export const updateUserBroadcast = (updatedParagraphs,user,selectedChatUser) => 
           let sendDate = userData.sendDate;
       
           if (frequencyInDays === "0" || frequencyInDays === 0) {
-            frequencyInDays = 30; //NOW WE HAVE TRIGGERED A SEND DATE TO START UPDATING
+           // frequencyInDays = 30; //NOW WE HAVE TRIGGERED A SEND DATE TO START UPDATING - we may need this later, not now
           }
       
           if (frequency === "None") {
-            frequency = "1 month"; //NOW WE HAVE TRIGGERED A FREQUENCY TO START UPDATING
+          //  frequency = "1 month"; //NOW WE HAVE TRIGGERED A FREQUENCY TO START UPDATING -  we may need this later, not now
           }
       
           if (sendDate === "0" || sendDate === 0) {
-            sendDate = "30"; //NOW WE HAVE TRIGGERED A SEND DATE TO START UPDATING
+           // sendDate = "30"; //NOW WE HAVE TRIGGERED A SEND DATE TO START UPDATING -  we may need this later, not now
           }
       
           contactDoc.update({
@@ -1030,6 +1030,8 @@ export const updateUserBroadcastWithNotif = (updatedParagraphs,user,selectedChat
 
 
       if (doc.exists) {
+
+        console.log("DAGOGO LOOK WHATS THE SUBJECT-->", updatedParagraphs?.subject )
 
       // Build updatedMessage safely
                  const updatedCreatedAt = updatedParagraphs?.createdAt ?? new Date();

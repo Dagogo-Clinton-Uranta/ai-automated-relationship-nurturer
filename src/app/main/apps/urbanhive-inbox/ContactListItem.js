@@ -30,6 +30,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+const stripEmojis = (text = "") => text.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "");
+
 
 function ContactListItem(props) {
   const classes = useStyles(props);
@@ -149,9 +151,9 @@ setTimeout(()=>{
       {onlyPendingMessages && onlyPendingMessages[onlyPendingMessages.length-1 && onlyPendingMessages.length-1] && onlyPendingMessages[onlyPendingMessages.length-1].subject ? 
       (//conditional for removing emoji for all messages that arent of type birthday
        (onlyPendingMessages[onlyPendingMessages.length-1].messageType === "Birthday" || onlyPendingMessages[onlyPendingMessages.length-1].messageType === "Holiday")?
-       onlyPendingMessages[onlyPendingMessages.length-1].subject.substring(0,onlyPendingMessages[onlyPendingMessages.length-1].subject.length-2)
+       stripEmojis(onlyPendingMessages[onlyPendingMessages.length-1].subject.substring(0,onlyPendingMessages[onlyPendingMessages.length-1].subject.length))
        :
-       onlyPendingMessages[onlyPendingMessages.length-1].subject.substring(0,onlyPendingMessages[onlyPendingMessages.length-1].subject.length-2)
+       stripEmojis(onlyPendingMessages[onlyPendingMessages.length-1].subject.substring(0,onlyPendingMessages[onlyPendingMessages.length-1].subject.length))
         
       
       )
