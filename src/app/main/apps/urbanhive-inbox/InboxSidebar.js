@@ -56,7 +56,7 @@ function InboxSidebar(props) {
   const [message, setMessage] = useState('');
   const [userUid, setUserUid] = useState(null);
   const { user } = useSelector((state) => state.login);
-  const { allUsers, connectedUsers, filteredContacts,aiTrigger, connects, connects2, isLoading,selectedChatUser,subjectChangeTriggerAfterEmailIsSent } = useSelector((state) => state.user);
+  const { allUsers, connectedUsers,allContacts, filteredContacts,aiTrigger, connects, connects2, isLoading,selectedChatUser,subjectChangeTriggerAfterEmailIsSent } = useSelector((state) => state.user);
 
 
   const container = {
@@ -108,7 +108,7 @@ function InboxSidebar(props) {
     }
     else{
 
-    setConnUsers(connUsers.filter((item)=>(item.name.toLowerCase().includes(event.target.value.toLowerCase()))))
+    setConnUsers(connectedUsersOutput.filter((item)=>(item.name.toLowerCase().includes(event.target.value.toLowerCase()))))
 
     console.log("WHO ARE THESE USERS, WHY IS THE SEARCH FAILING--->",connUsers.filter((item)=>(item.name.toLowerCase().includes(event.target.value.toLowerCase()))))
     }

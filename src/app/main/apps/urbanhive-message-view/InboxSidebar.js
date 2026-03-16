@@ -137,9 +137,9 @@ function InboxSidebar(props) {
     }
     else{
 
-    setConnUsers(connUsers.filter((item)=>(item.name.toLowerCase().includes(event.target.value.toLowerCase()))))
+    setConnUsers(connectedUsersOutput.filter((item)=>(item.name.toLowerCase().includes(event.target.value.toLowerCase()))))
 
-    console.log("WHO ARE THESE USERS, WHY IS THE SEARCH FAILING--->",connUsers.filter((item)=>(item.name.toLowerCase().includes(event.target.value.toLowerCase()))))
+    console.log("WHO ARE THESE USERS, WHY IS THE SEARCH FAILING--->",connectedUsersOutput.filter((item)=>(item.name.toLowerCase().includes(event.target.value.toLowerCase()))))
     }
   }
 

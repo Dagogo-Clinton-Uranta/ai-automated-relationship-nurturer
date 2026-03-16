@@ -59,7 +59,7 @@ function InboxSidebar(props) {
   const [message, setMessage] = useState('');
   const [userUid, setUserUid] = useState(null);
   const { user } = useSelector((state) => state.login);
-  const { allUsers, connectedUsers, filteredContacts,aiTrigger, connects, connects2, isLoading,selectedChatUser,subjectChangeTriggerAfterEmailIsSent, candidateInFocus } = useSelector((state) => state.user);
+  const { allUsers, connectedUsers,allContacts, filteredContacts,aiTrigger, connects, connects2, isLoading,selectedChatUser,subjectChangeTriggerAfterEmailIsSent, candidateInFocus } = useSelector((state) => state.user);
 
   const formatSentDate = (createdAt) => {
     if (!createdAt) {
@@ -127,9 +127,14 @@ function InboxSidebar(props) {
 
 
   function handleSearchText(event) {
+
+    console.log("CONNECTED USERS OUTPUT--->",connectedUsersOutput)
+
+
     setSearchText(event.target.value);
     if(event.target.value=== ""||event.target.value=== null ){
       setConnUsers(connectedUsersOutput)
+    
     }
     else{
 
@@ -169,7 +174,7 @@ console.log("INTERACTIONS ON INBOX SIDEBAR--->",interactions)
 
 
         // Use filteredContacts from Firebase instead of connectedUsers
-    let connectedUsersOutput = filteredContacts && filteredContacts/*.filter((a)=>(a.messageQueue && a.messageQueue.some((msg)=>(msg.messageStatus === "Pending"))) )*/.filter((item)=>(item.frequency !== "None" && item.sendDate && Number(item.sendDate) > 0 )).filter((item) => (item.uid !== user.uid))
+    let connectedUsersOutput = allContacts && allContacts/*.filter((a)=>(a.messageQueue && a.messageQueue.some((msg)=>(msg.messageStatus === "Pending"))) )*//*.filter((item)=>(item.frequency !== "None" && item.sendDate && Number(item.sendDate) > 0 ))*/.filter((item) => (item.uid !== user.uid))
     .sort((a, b) => {
       const aDate = a.sendDate === "None" ? Infinity : Number(a.sendDate) || 1000;
       const bDate = b.sendDate === "None" ? Infinity : Number(b.sendDate) || 1000;
@@ -191,7 +196,7 @@ console.log("INTERACTIONS ON INBOX SIDEBAR--->",interactions)
     return aDate - bDate;
 }))
 
-  console.log("CONN USERS-->",connUsers)
+  console.log("CONN USERS-->",allContacts)
 
       useEffect(()=>{
 
@@ -221,7 +226,7 @@ console.log("INTERACTIONS ON INBOX SIDEBAR--->",interactions)
                 <Icon color="action">search</Icon>
 
                 <Input
-                  placeholder="Search "
+                  placeholder="Search for a contact"
                   className="flex flex-1 px-8"
                   disableUnderline
                   fullWidth
