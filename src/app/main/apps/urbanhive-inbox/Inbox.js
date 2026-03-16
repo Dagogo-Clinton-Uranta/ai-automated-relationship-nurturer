@@ -515,6 +515,74 @@ console.log("WE SET PARAGRAPHS TO ---->",editedParagraphs)
       <FuseScrollbars ref={chatRef} className="flex flex-1 flex-col overflow-y-auto">
         {chatMessages &&  chatMessages.length || 0 && chatMessages && chatMessages.length > 0 ? (
         <>
+
+
+        
+            {/**SUBJECT CHANGING WHITE BOX -START */
+                        
+    <Box sx={{display:onlyPendingMessages && onlyPendingMessages.length > 0?"flex":"none",flexDirection:"column",justifyContent:"flex-start",alignItems:"flex-start",marginLeft:{xs:"-0rem", sm:"7.5rem"},marginTop:"2rem",marginBottom:"4rem",backgroundColor:"#fff",borderRadius:"2rem",width:{xs:"55%",sm:"73%",md:"53rem"},maxWidth:{xs:"60%",sm:"78.5%"},padding:"1rem",paddingTop:"3rem"}}>
+  
+
+    <>
+             <Typography
+              style={{fontWeight:700,fontSize:"1.2rem",marginBottom:"1rem"}}
+             >
+               Subject:
+         </Typography>
+
+    <FormControl component="fieldset">
+      
+        <Stack spacing={2}>
+          
+  
+  {paragraphs && paragraphs.subject  &&
+            <>
+     
+     <TextField
+           variant="standard"
+           value={paragraphs.subject || ""}
+           onChange={(e)=>{
+             setParagraphs({
+               ...paragraphs,
+               subject: e.target.value
+             })
+           }}
+           InputProps={{
+             disableUnderline: true,
+             style: {
+               fontWeight: 700,
+               fontSize: "1.2rem",
+               marginBottom: "1rem",
+               padding: 0
+             }
+           }}
+           sx={{
+             "& .MuiInputBase-root": {
+               padding: 0
+             }
+           }}
+     />
+         
+          </>
+        
+        
+        }
+  
+        
+        </Stack>
+     
+    </FormControl>
+  </>
+
+   
+</Box>
+
+  /**SUBJECT CHANGING WHITE BOX -END */ 
+  } 
+
+
+
+
           <div onClick={handleSave} className="
   flex flex-col 
   pt-16 px-16 

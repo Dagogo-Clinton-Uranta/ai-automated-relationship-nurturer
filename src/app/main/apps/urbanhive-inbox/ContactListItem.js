@@ -43,12 +43,12 @@ function ContactListItem(props) {
  //("WHAT IS USER?--->",props.user)
 
 
- let matchedUser = filteredContacts.filter((item)=>(item.uid === props.user.uid)) && filteredContacts.filter((item)=>(item.uid === props.user.uid))[0]
+ let matchedUser =filteredContacts && filteredContacts.filter((item)=>(item.uid === props.user.uid)) && filteredContacts.filter((item)=>(item.uid === props.user.uid))[0]
 console.log("WHAT IS MATCHED USER ---->", matchedUser)
 
 
 //I had to use a variable called matched user, because props is not updating the subject at all, seeing as its not changing
- let onlyPendingMessages = matchedUser.messageQueue  && matchedUser.messageQueue.filter((item)=>(item.messageStatus && item.messageStatus === "Pending"))
+ let onlyPendingMessages =matchedUser &&  matchedUser.messageQueue  && matchedUser.messageQueue.filter((item)=>(item.messageStatus && item.messageStatus === "Pending"))
 
  //const [onlyPendingMessages,setOnlyPendingMessages] = useState(matchedUser.messageQueue  && matchedUser.messageQueue.filter((item)=>(item.messageStatus && item.messageStatus === "Pending")))
 //

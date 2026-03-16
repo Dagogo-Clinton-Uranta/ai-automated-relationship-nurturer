@@ -853,7 +853,7 @@ const prompt =
 
 
 
-export const updateUserBroadcast = (updatedParagraphs,user,selectedChatUser) => async (dispatch) => {
+export const updateUserBroadcastOldOne = (updatedParagraphs,user,selectedChatUser) => async (dispatch) => {
   //console.log("MESSAGE IS IN PHASE 2:", user.uid);
   
   try {
@@ -921,6 +921,93 @@ export const updateUserBroadcast = (updatedParagraphs,user,selectedChatUser) => 
      
   }
 };
+
+
+
+
+
+export const updateUserBroadcast = (updatedParagraphs,user,selectedChatUser) => async (dispatch) => {
+  //console.log("MESSAGE IS IN PHASE 2:", user.uid);
+  
+  try {
+      //console.log("Fetching the user itself:", user.uid);
+      
+      // Query contacts collection where contacterId matches the user's uid
+
+      console.log("USER IN UPDATE MESSAGE--->",user)
+      console.log("CONTACT IN UPDATE MESSAGE--->",selectedChatUser)
+
+      const contactsSnapshot = db.collection('users').doc(user && user.uid)
+
+      const contactDoc = db.collection('contacts').doc(selectedChatUser && selectedChatUser.uid)
+         
+      contactsSnapshot.get().then(async (doc) => { 
+        if (doc.exists) {
+      
+          const userData = doc.data();
+      
+          let updatedMessage = { ...userData.message };
+      
+          const createdAtValue = updatedParagraphs?.createdAt ?? new Date();
+          const dateStringValue = toDateString(createdAtValue);
+      
+          updatedMessage.firstParagraph = updatedParagraphs && updatedParagraphs.firstParagraph;
+          updatedMessage.secondParagraph = updatedParagraphs && updatedParagraphs.secondParagraph;
+          updatedMessage.thirdParagraph = updatedParagraphs && updatedParagraphs.thirdParagraph;
+          updatedMessage.bulletPoints = updatedParagraphs && updatedParagraphs.bulletPoints;
+          updatedMessage.subject = updatedParagraphs && updatedParagraphs.subject;
+          updatedMessage.createdAt = dateStringValue;
+          updatedMessage.messageStatus = updatedParagraphs && updatedParagraphs.messageStatus;
+          updatedMessage.messageType = updatedParagraphs && updatedParagraphs.messageType ? updatedParagraphs.messageType : "Email";
+      
+          // ---- NEW LOGIC ----
+          let frequencyInDays = userData.frequencyInDays;
+          let frequency = userData.frequency;
+          let sendDate = userData.sendDate;
+      
+          if (frequencyInDays === "0" || frequencyInDays === 0) {
+            frequencyInDays = 30; //NOW WE HAVE TRIGGERED A SEND DATE TO START UPDATING
+          }
+      
+          if (frequency === "None") {
+            frequency = "1 month"; //NOW WE HAVE TRIGGERED A FREQUENCY TO START UPDATING
+          }
+      
+          if (sendDate === "0" || sendDate === 0) {
+            sendDate = "30"; //NOW WE HAVE TRIGGERED A SEND DATE TO START UPDATING
+          }
+      
+          contactDoc.update({
+            messageQueue: firebase.firestore.FieldValue.arrayUnion(updatedMessage)
+          })
+          .then(() => contactDoc.get())
+          .then((doc) => {
+            if (doc.exists) {
+              dispatch(setCurrentChat(doc.data()));
+            }
+          });
+      
+          contactsSnapshot.update({
+            message: updatedMessage,
+            frequencyInDays: frequencyInDays,
+            frequency: frequency,
+            sendDate: sendDate
+          })
+          .then(() => {
+            // success
+          });
+      
+        }
+      });
+    
+  } catch (error) {
+      const errorMessage = error.message;
+      console.log('FAILED TO UPDATE EMILY WHITE AFTER AI GENERATED HER MESSAGE:', errorMessage);
+      console.log("FAILED TO UPDATE EMILY WHITE AFTER AI GENERATED HER MESSAGE:", user.uid);
+     
+  }
+};
+
 
 
 
@@ -993,7 +1080,7 @@ export const updateUserBroadcastWithNotif = (updatedParagraphs,user,selectedChat
         .then((doc) => {
           if (doc.exists) {
             //updating the user to have the latest query msg
-            dispatch(loginSuccess({ user:document.data(), uid:document.data().uid }))
+            dispatch(loginSuccess({ user:doc.data(), uid:doc.data().uid }))
           }
         })
           
