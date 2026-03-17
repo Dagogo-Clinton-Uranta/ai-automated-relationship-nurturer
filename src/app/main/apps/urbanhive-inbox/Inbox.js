@@ -566,7 +566,9 @@ const stripEmojis = (text = "") => text.replace(/[\p{Emoji_Presentation}\p{Exten
                fontSize: "1.2rem",
                marginBottom: "1rem",
                padding: 0,
-               paddingLeft:"1rem"
+               paddingLeft:"0.1rem",
+               
+              
              }
            }}
            sx={{
