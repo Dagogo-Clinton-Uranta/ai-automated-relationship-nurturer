@@ -105,7 +105,7 @@ function Inbox3(props) {
     (state) => state.chat
   );
 
-  console.log("ON THE INBOX PAGE, WHATS OUR MESSAGE IN FOCUS?--->",messageInFocus)
+  console.log("ON THE INBOX PAGE, WHATS OUR MESSAGE IN FOCUS?--->",messageInFocus[0].messageQueue[0])
 
   const { isAuth, user } = useSelector((state) => state.login);
   const selectedChatUser = messageInFocus || {};
@@ -137,7 +137,23 @@ const [chatMessages,setChatMessages] = useState(messageInFocus && messageInFocus
   const contacts = [];
   let connectStatus;
 
-  let onlyPendingMessages = selectedInteraction ? [messageInFocus && messageInFocus.messageQueue?messageInFocus.messageQueue[0]:{}] : [];
+  let onlyPendingMessages =true /* we need this to be true, later we will refactor anywhere where we see onlyPendingMessages below ..messageInFocus ? [messageInFocus && messageInFocus[0] &&  messageInFocus[0].messageQueue?messageInFocus.messageQueue[0]:{}] : [];*/
+
+
+
+
+
+  useEffect(() => {
+    setParagraphs(messageInFocus && messageInFocus[0] && messageInFocus[0].messageQueue?messageInFocus[0].messageQueue[0]:{});
+
+   // setChatMessages(messageInFocus && messageInFocus)
+  
+    
+  
+  }, []);
+
+
+
 
   useEffect(() => {
     setParagraphs(messageInFocus && messageInFocus[0] && messageInFocus[0].messageQueue?messageInFocus[0].messageQueue[0]:{});
@@ -379,24 +395,24 @@ const [chatMessages,setChatMessages] = useState(messageInFocus && messageInFocus
 
                     {
                       <span>
-                        Hello, {messageInFocus && messageInFocus.name ? messageInFocus.name:messageInFocus && messageInFocus.firstName}
+                        Hello, {messageInFocus && messageInFocus[0] && messageInFocus[0].name ? messageInFocus.name:messageInFocus && messageInFocus[0] && messageInFocus[0].firstName}
                       </span>
                     }
 
                     <br /><br /><br /><br />
 
-                    {onlyPendingMessages && onlyPendingMessages.length > 0 &&
+                    {messageInFocus &&
                       <span className="firstParagraph" sx={{color:"black"}}>
                         {paragraphs && paragraphs.firstParagraph}
                       </span>
                     }
                     <br /><br /><br /><br />
 
-                    {onlyPendingMessages && onlyPendingMessages.length > 0 &&
+                    {messageInFocus  &&
                       <span className="secondParagraph">
                         {paragraphs && paragraphs.secondParagraph}
 
-                        { paragraphs && paragraphs.messageType && (paragraphs.messageType === "Holiday"  ) &&
+                        { paragraphs && paragraphs.messageType && (paragraphs.messageType === "Holiday") &&
                           <>
                             {holidayMessage1 && (paragraphs.firstParagraph||paragraphs.secondParagraph||paragraphs.thirdParagraph) &&
                               <div
@@ -558,7 +574,7 @@ const [chatMessages,setChatMessages] = useState(messageInFocus && messageInFocus
                       </span>
                     }
 
-                    {onlyPendingMessages && onlyPendingMessages.length > 0 &&
+                    {messageInFocus  &&
                       <>
                         <><br /></>
                         {paragraphs && !(paragraphs.messageType === 'Holiday') && !(paragraphs.messageType === 'Birthday') && !(paragraphs.messageType === 'Event') && paragraphs.sentBulletPoints && paragraphs.sentBulletPoints.map((point,index)=>(
@@ -575,8 +591,11 @@ const [chatMessages,setChatMessages] = useState(messageInFocus && messageInFocus
                       </>
                     }
 
-                    {onlyPendingMessages && onlyPendingMessages.length > 0 &&
+                    {messageInFocus &&
+                   
                       <span className="thirdParagraph">
+
+                     <br /><br />
                         {paragraphs && paragraphs.thirdParagraph}
                       </span>
                     }

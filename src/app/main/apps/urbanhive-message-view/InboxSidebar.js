@@ -139,7 +139,7 @@ function InboxSidebar(props) {
 
     setConnUsers(connectedUsersOutput.filter((item)=>(item.name.toLowerCase().includes(event.target.value.toLowerCase()))))
 
-    console.log("WHO ARE THESE USERS, WHY IS THE SEARCH FAILING--->",connectedUsersOutput.filter((item)=>(item.name.toLowerCase().includes(event.target.value.toLowerCase()))))
+    //console.log("WHO ARE THESE USERS, WHY IS THE SEARCH FAILING--->",connectedUsersOutput.filter((item)=>(item.name.toLowerCase().includes(event.target.value.toLowerCase()))))
     }
   }
 
@@ -157,7 +157,7 @@ function InboxSidebar(props) {
         dispatch(closeMobileChatsSidebar());
       }
   }
-  console.log("CANDIDATE IN FOCUS ON INBOX SIDEBAR--->",candidateInFocus)
+ 
 
   const data = candidateInFocus?.messageQueue || [];
 console.log("DATA ON INBOX SIDEBAR--->",data)
@@ -259,12 +259,12 @@ console.log("DATA ON INBOX SIDEBAR--->",data)
                     </Typography>
                   </motion.div>
                 )}
-                  {connUsers.messageQueue? (
+                  {connUsers[0].messageQueue? (
                     <>
                     
                     {
-                      connUsers.messageQueue && connUsers.messageQueue.length>0 ? (
-                        connUsers.messageQueue.map((interaction, idx) => {
+                      connUsers[0] && connUsers[0].messageQueue && connUsers[0].messageQueue.length>0 ? (
+                        connUsers[0].messageQueue.map((interaction, idx) => {
 
                           return (
                             <ListItem
@@ -281,14 +281,14 @@ console.log("DATA ON INBOX SIDEBAR--->",data)
 
                             >
                               <div className="relative">
-                                      <Avatar src={candidateInFocus?.photoUrl} alt={candidateInFocus?.name}>
-                                        {!candidateInFocus?.photoUrl || candidateInFocus?.photoUrl === '' ? candidateInFocus?.name[0] : ''}
+                                      <Avatar src={messageInFocus[0] && messageInFocus?.photoUrl} alt={messageInFocus[0] && messageInFocus[0]?.name}>
+                                        {messageInFocus[0] && !messageInFocus[0]?.photoUrl || messageInFocus[0]?.photoUrl === '' ? messageInFocus[0] && messageInFocus[0]?.name : ''}
                                       </Avatar>
                                 <div className="absolute right-0 bottom-0 -m-4 z-10">
                                 </div>
                               </div>
 
-                              <ListItemText
+                              {/*<ListItemText
                                 classes={{
                                   root: 'min-w-px px-16',
                                   primary: 'font-medium text-14',
@@ -296,9 +296,93 @@ console.log("DATA ON INBOX SIDEBAR--->",data)
                                 }}
                                 primary={candidateInFocus?.name}
                                 secondary={interaction.subject}
+                              />*/}
+
+
+                              <ListItemText
+                                classes={{
+                                  root: 'min-w-px px-16',
+                                  primary: 'font-medium text-12',
+                                  secondary: 'truncate',
+                                }}
+                                primary={
+
+                                  <Typography  variant="body1"
+                                  color="textPrimary"
+                                  className="font-bold text-12">
+                                {interaction && interaction.subject ? 
+                                (//conditional for removing emoji for all messages that arent of type birthday
+                                 (interaction.messageType === "Birthday" || interaction.messageType === "Holiday")?
+                                ( 
+
+                                  interaction.subject &&
+                                    (interaction.subject.length < 18
+                                      ? interaction.subject
+                                      : (() => {
+                                          const words = interaction.subject.split(" ");
+                                          let result = "";
+                                          for (let word of words) {
+                                            if ((result + (result ? " " : "") + word).length > 18) break;
+                                            result += (result ? " " : "") + word;
+                                          }
+                                          return result/* +" "+interaction.subject.slice(interaction.subject.length-2,interaction.subject.length)*/ ;
+                                        })()
+                                    )
+
+
+                                )
+                                 :
+                                 
+
+                                 interaction.subject &&
+                                  (interaction.subject.length < 18
+                                    ? interaction.subject.substring(0,interaction.subject.length-2)
+                                    : (() => {
+                                        const words = interaction.subject.split(" ");
+                                        let result = "";
+                                        for (let word of words) {
+                                          if ((result + (result ? " " : "") + word).length > 18) break;
+                                          result += (result ? " " : "") + word;
+                                        }
+                                        return result/* +" "+interaction.subject.slice(interaction.subject.length-2,interaction.subject.length)*/ ;
+                                      })()
+                                  )
+                                  
+                                
+                                )
+                                  :" "}
+                                </Typography>
+                                }
+                                
+                                
+                                secondary={
+
+                                  <>
+
+                                  <Typography variant="caption" color="textSecondary">
+                                    {messageInFocus[0] && messageInFocus[0].name && messageInFocus[0].name}
+                                  </Typography>
+                            
+                                  &nbsp; - &nbsp;
+                                 
+                            
+                                  <Typography variant="caption" color="textSecondary">
+                                    {messageInFocus[0] && messageInFocus[0].companyName && messageInFocus[0].companyName}
+                                  </Typography>
+                                   
+                            
+                                 
+                                </>
+                                }
                               />
 
-                              <div className="flex items-center " style={{justifyContent:"flex-start",minWidth:"15rem",backgroundColor:"pink"}}>
+
+
+
+
+
+
+                              <div className="flex items-center " style={{justifyContent:"flex-start",minWidth:"15rem"}}>
                                   <Typography className="font-medium text-14 mr-14" color="textSecondary" style={{flex:1}}>
                                     {//logic for date used -start
                                     formatSentDate(interaction.messageStatus === "Pending" ?
@@ -310,7 +394,7 @@ console.log("DATA ON INBOX SIDEBAR--->",data)
                                   </Typography>
                                   <Typography   style={{
                                          padding: "4px 12px",
-                                         background: "yellow",
+                                         
                                          color: "black",
                                          borderRadius: "4px",
                                          flex:1

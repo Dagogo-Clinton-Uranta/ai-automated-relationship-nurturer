@@ -153,6 +153,8 @@ function MessageViewApp(props) {
   }
 
   console.log("INSIDE RESORT FILTERED USERS AND PUSH --->",replica)
+
+
   
  dispatch(saveFilteredContacts(replica))
 
@@ -170,7 +172,10 @@ setTimeout(()=>{
 
 
   const { isAuth, user } = useSelector((state) => state.login);
-  const { selectedChatUser } = useSelector((state) => state.chat);
+  const { selectedChatUser,messageInFocus } = useSelector((state) => state.chat);
+
+  console.log("MESSAGE VIEW APP PAGE --->",messageInFocus)
+
   let unsubscribe;
   const classes = useStyles(props);
 
@@ -285,7 +290,7 @@ setTimeout(()=>{
               // Optional: space for scrollbar if needed
              position: 'relative', // Ensure that it can be positioned correctly within its parent (optional)
            }}>
-            {!selectedChatUser ? (
+            {!messageInFocus ? (
               <div className="flex flex-col flex-1 items-center justify-center p-24">
                 <Paper className="rounded-full p-48 md:p-64 shadow-xl">
                   <Icon className="block text-48 md:text-64" style={{color:"#21C9CF"}}>
@@ -333,17 +338,17 @@ setTimeout(()=>{
                         <div className="absolute right-0 bottom-0 -m-4 z-10">
                           <StatusIcon status={'online'} />
                         </div>
-                        {<Avatar src={selectedChatUser && selectedChatUser.photoUrl} alt={selectedChatUser && selectedChatUser.name}
+                        {<Avatar src={messageInFocus &&  messageInFocus[0] && messageInFocus[0].photoUrl} alt={messageInFocus && messageInFocus[0] && messageInFocus[0].name}
                         
-                        onClick={()=>{resortFilteredUsersAndPush(/*selectedChatUser && */selectedChatUser.uid)}}
+                        onClick={()=>{resortFilteredUsersAndPush(messageInFocus && messageInFocus[0] && messageInFocus[0].uid)}}
                         >
-                          {!selectedChatUser&&  !selectedChatUser.photoUrl || selectedChatUser && selectedChatUser.photoUrl === ''
-                            ? selectedChatUser && selectedChatUser.name[0]
+                          {!messageInFocus&&  !messageInFocus.photoUrl || messageInFocus && messageInFocus[0] && messageInFocus[0].photoUrl === ''
+                            ? messageInFocus && messageInFocus[0].name
                             : ''}
                        </Avatar>}
                       </div>
                       <Typography color="inherit" className="text-18 font-semibold px-4">
-                        {selectedChatUser && selectedChatUser.name}
+                        {messageInFocus && messageInFocus[0] && messageInFocus[0].name}
                       </Typography>
                     </div>
                   </Toolbar>
