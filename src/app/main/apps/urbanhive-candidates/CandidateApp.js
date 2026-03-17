@@ -539,7 +539,7 @@ function CandidateApp(props) {
                     ));
                     setTimeout(()=>{ 
                     // history.push('/apps/inbox')
-                    history.push('/message-view')
+                    //history.push('/message-view')
                   },300)
                 }
                   }
