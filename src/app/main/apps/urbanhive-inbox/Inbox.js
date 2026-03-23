@@ -543,6 +543,7 @@ const stripEmojis = (text = "") => text.replace(/[\p{Emoji_Presentation}\p{Exten
            variant="standard"
            //value={paragraphs.subject || ""}
            value={stripEmojis(paragraphs.subject || "")}
+           style={{ minWidth:"30rem"}}
            onChange={(e) => {
 
             const removeEmojis = (text) =>
@@ -568,6 +569,8 @@ const stripEmojis = (text = "") => text.replace(/[\p{Emoji_Presentation}\p{Exten
                padding: 0,
                paddingLeft:"0.1rem",
                
+               width:"100%",
+               minWidth:"30rem"
               
              }
            }}

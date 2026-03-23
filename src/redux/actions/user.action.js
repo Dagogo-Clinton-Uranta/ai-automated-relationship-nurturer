@@ -961,21 +961,21 @@ export const updateUserBroadcast = (updatedParagraphs,user,selectedChatUser) => 
           updatedMessage.messageType = updatedParagraphs && updatedParagraphs.messageType ? updatedParagraphs.messageType : "Email";
       
           // ---- NEW LOGIC ----
-          let frequencyInDays = userData.frequencyInDays;
-          let frequency = userData.frequency;
-          let sendDate = userData.sendDate;
+          //let frequencyInDays = userData.frequencyInDays; - frequencyInDays is not from userData.. it should be from contact data - take note for when u actually need it!
+          //let frequency = userData.frequency;
+          //let sendDate = userData.sendDate;
       
-          if (frequencyInDays === "0" || frequencyInDays === 0) {
-           // frequencyInDays = 30; //NOW WE HAVE TRIGGERED A SEND DATE TO START UPDATING - we may need this later, not now
-          }
+        //  if (frequencyInDays === "0" || frequencyInDays === 0) {
+        //   // frequencyInDays = 30; //NOW WE HAVE TRIGGERED A SEND DATE TO START UPDATING - we may need this later, not now
+        //  }
       
-          if (frequency === "None") {
-          //  frequency = "1 month"; //NOW WE HAVE TRIGGERED A FREQUENCY TO START UPDATING -  we may need this later, not now
-          }
+        //  if (frequency === "None") {
+        //  //  frequency = "1 month"; //NOW WE HAVE TRIGGERED A FREQUENCY TO START UPDATING -  we may need this later, not now
+        //  }
       
-          if (sendDate === "0" || sendDate === 0) {
-           // sendDate = "30"; //NOW WE HAVE TRIGGERED A SEND DATE TO START UPDATING -  we may need this later, not now
-          }
+        //  if (sendDate === "0" || sendDate === 0) {
+        //   // sendDate = "30"; //NOW WE HAVE TRIGGERED A SEND DATE TO START UPDATING -  we may need this later, not now
+        //  }
       
           contactDoc.update({
             messageQueue: firebase.firestore.FieldValue.arrayUnion(updatedMessage)
@@ -988,10 +988,11 @@ export const updateUserBroadcast = (updatedParagraphs,user,selectedChatUser) => 
           });
       
           contactsSnapshot.update({
-            message: updatedMessage,
-            frequencyInDays: frequencyInDays,
-            frequency: frequency,
-            sendDate: sendDate
+            message: [{...updatedMessage}],
+            queryMsg: [{...updatedMessage}],
+            //frequencyInDays: frequencyInDays,
+            //frequency: frequency,
+            //sendDate: sendDate
           })
           .then(() => {
             // success
