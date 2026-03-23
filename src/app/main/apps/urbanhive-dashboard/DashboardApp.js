@@ -183,13 +183,13 @@ if (allContacts.length > 0) {
       label: 'Upcoming Events',
       color: '#03bafc',
     },
-    {
+   /* {
       id: 4,
       icon: LightbulbIcon,
       count: 5,
       label: 'Smart Suggestions',
       color: '#03fc5a',
-    },
+    },*/
   ];
   
   // The whole card (so you can scale if you want to have multiple cards)
@@ -530,8 +530,8 @@ if (allContacts.length > 0) {
         display: "grid",
         gridTemplateColumns: {
           xs: "repeat(2, 1fr)",        // mobile (extra-small)
-          sm: "repeat(4, 1fr)", // small screens
-          md: "repeat(4, 1fr)"  // medium+
+          sm: "repeat(3, 1fr)", // small screens
+          md: "repeat(3, 1fr)"  // medium+
         },
         gap: "16px",
         margin:"26px 22px"
@@ -560,6 +560,7 @@ if (allContacts.length > 0) {
                 background: "#ffffff", 
                 padding: "16px", 
                 textAlign: "center", 
+               
                 borderRadius: "6px",
                 cursor: clickable ? "pointer" : "default",
                 boxShadow: isTotalContacts

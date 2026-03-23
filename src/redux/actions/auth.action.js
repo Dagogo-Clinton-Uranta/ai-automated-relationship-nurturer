@@ -159,7 +159,7 @@ const sesClient = new SESClient({
               },
               Html: {
                 Data: ` <h2>Welcome to Nurturer!</h2>
-                       <p>Dear <strong>${user.name &&user.name||user.name &&user.name}</strong>,</p>
+                       <p>${user.name &&user.name||user.name &&user.name},</p>
                        <br/>
                        <br/>
 

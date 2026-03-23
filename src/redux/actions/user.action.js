@@ -431,7 +431,7 @@ switch (cardType) {
     const latest = data.messageQueue[data.messageQueue.length - 1];
 
     const emailHTML = `
-      <p>Dear <strong>${data.name || ''}</strong>,</p>
+      <p> ${data.name || ''},</p>
     
       <p>${latest?.firstParagraph || ''}</p>
     
@@ -606,7 +606,7 @@ switch (cardType) {
  //           Html: {
  //             Data: `
  //               
- //               <p>Dear <strong>${data.name || ''}</strong>,</p>
+ //               <p>${data.name || ''},</p>
  //               <br/>
  //     
  //               <p>${data.messageQueue && data.messageQueue[data.messageQueue.length - 1] && data.messageQueue[data.messageQueue.length - 1].firstParagraph || ''}</p>

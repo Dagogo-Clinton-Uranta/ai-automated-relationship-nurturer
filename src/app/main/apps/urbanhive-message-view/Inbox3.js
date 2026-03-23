@@ -395,7 +395,7 @@ const [chatMessages,setChatMessages] = useState(messageInFocus && messageInFocus
 
                     {
                       <span>
-                        Hello, {messageInFocus && messageInFocus[0] && messageInFocus[0].name ? messageInFocus.name:messageInFocus && messageInFocus[0] && messageInFocus[0].firstName}
+                       {/*Hello,*/} {messageInFocus && messageInFocus[0] && messageInFocus[0].name ? messageInFocus.name:messageInFocus && messageInFocus[0] && messageInFocus[0].firstName}
                       </span>
                     }
 

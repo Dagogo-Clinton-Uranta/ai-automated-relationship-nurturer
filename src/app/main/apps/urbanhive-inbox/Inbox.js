@@ -771,7 +771,7 @@ const stripEmojis = (text = "") => text.replace(/[\p{Emoji_Presentation}\p{Exten
 
        {
         <span>
-          Hello, {selectedChatUser && selectedChatUser.name ? selectedChatUser.name:selectedChatUser && selectedChatUser.firstName  }
+          {/*Hello,*/} {selectedChatUser && selectedChatUser.name ? selectedChatUser.name:selectedChatUser && selectedChatUser.firstName  }
         </span>
         }
 

@@ -669,7 +669,7 @@ let [defaultCards,setDefaultCards] = useState(user.cards  && user.cards)
 
        {
         <span>
-          Hello, {selectedChatUser && selectedChatUser.name ? selectedChatUser.name:selectedChatUser && selectedChatUser.firstName  }
+          {/*Hello,*/} {selectedChatUser && selectedChatUser.name ? selectedChatUser.name:selectedChatUser && selectedChatUser.firstName  }
         </span>
         }
 
