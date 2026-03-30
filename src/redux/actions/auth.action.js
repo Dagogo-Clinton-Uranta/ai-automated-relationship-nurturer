@@ -213,8 +213,8 @@ const sesClient = new SESClient({
 
                
 
-                <p>Warm Regards</p>,
-                <p>– The Nurturer Team</p>`
+                <p>Warm Regards,</p>
+                <p>The Nurturer Team</p>`
       
 
 
