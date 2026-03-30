@@ -10,6 +10,7 @@ import { clearChat } from 'src/redux/reducers/chat.slice';
 // import { createBankAcc } from './bank.action';
 
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import axios from 'axios';
 
 
 
@@ -186,12 +187,61 @@ const sesClient = new SESClient({
           }, 
           Source: 'info@nurturer.ai'//process.env.SES_FROM_EMAIL, // must be a verified SES sender
         };
+
     
        // const command = new SendEmailCommand(params); we arent using SES
        // const response = await sesClient.send(command);
     
         //console.log("✅ Email sent successfully:", response.MessageId);
        // return response;
+
+       const emailHTML = 
+        ` <h2>Welcome to Nurturer!</h2>
+               <p>${user.name &&user.name||user.name &&user.name},</p>
+               <br/>
+               <br/>
+
+               
+               <p>Welcome aboard! Your registration on Nurturer is now complete, and you’re all set to begin using the platform.</p>
+               <br/>
+
+
+                <p>With Nurturer, you’ll have the tools to stay connected with your leads, nurture stronger relationships, and remain top of mind in a simple, effective way. Your access has already been set up, so you can dive right in and start making the most of the platform.</p>
+                <br/>
+                <p>We’re excited to have you join the Nurturer community and look forward to supporting your success.</p>
+                <br/>
+
+               
+
+                <p>Warm Regards</p>,
+                <p>– The Nurturer Team</p>`
+      
+
+
+       const response = await axios.post(
+        /*"http://localhost:5008/send-email",*/
+    "https://nurturer-sendgrid-backend.vercel.app/send-email",
+    /* "https://nurturer-sendgrid-backend-production.up.railway.app/send-email",*/
+   {
+     to: user.email && user.email, // or 'devs@nurturer.ai'
+     subject: "Welcome to Nurturer",
+     htmlMessage: emailHTML,
+     name:user.name && user.name,
+     userEmail:'info@nurturer.ai'
+   },
+   {
+     headers: {
+       "Content-Type": "application/json",
+     },
+   }
+  )
+
+  console.log("RESPONSE IS=====>",response)
+
+  const result = await response.data; // <-- parse backend JSON
+
+
+   
       } catch (error) {
         console.error("❌ Error sending email:", error);
         throw error;
