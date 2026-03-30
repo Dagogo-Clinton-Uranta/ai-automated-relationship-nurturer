@@ -1,5 +1,5 @@
 // import axios from '../../helpers/axios';
-import {loginPending,loginSuccess,loginFailed,signupSuccess,signupPending,signupFailed,logoutPending,logoutSuccess} from '../reducers/auth.slice';
+import {loginPending,loginSuccess,loginFailed,signupSuccess,signupPending,stopLoading,signupFailed,logoutPending,logoutSuccess} from '../reducers/auth.slice';
 import { db, fb, auth, static_img } from '../../config/firebase';
 import { fetchProfile } from './profile.action';
 import { clearProfile } from 'src/redux/reducers/profile.slice';
@@ -40,6 +40,7 @@ import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 export const signup = (user, history,notifySkip) => async (dispatch) => {
       //console.log(user);
        dispatch(signupPending());
+       setTimeout( ()=>{dispatch(stopLoading())},1500  );
 
 
 const sesClient = new SESClient({
@@ -200,6 +201,7 @@ const sesClient = new SESClient({
 
      /**TRY TO SEND THE EMAIL HERE - END */
 
+    
       }).then(() => {
         dispatch(signupSuccess());
 

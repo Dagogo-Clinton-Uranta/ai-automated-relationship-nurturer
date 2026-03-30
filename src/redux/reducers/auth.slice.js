@@ -58,6 +58,11 @@ const loginSlice = createSlice({
         (state.error = '');
         (state.message = '');
     },
+    stopLoading: (state) => {
+      (state.isLoading = false);
+        (state.error = '');
+        (state.message = '');
+    },
     signupSuccess: (state) => {
       (state.isLoading = false); 
       (state.modalVisible = true);
@@ -84,6 +89,7 @@ export const {
   logoutPending,
   logoutSuccess,
   signupPending,
+  stopLoading,
   signupSuccess,
   signupFailed,
   closeModal,
