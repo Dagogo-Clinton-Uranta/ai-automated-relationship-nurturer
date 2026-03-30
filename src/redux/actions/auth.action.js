@@ -187,11 +187,11 @@ const sesClient = new SESClient({
           Source: 'info@nurturer.ai'//process.env.SES_FROM_EMAIL, // must be a verified SES sender
         };
     
-        const command = new SendEmailCommand(params);
-        const response = await sesClient.send(command);
+       // const command = new SendEmailCommand(params); we arent using SES
+       // const response = await sesClient.send(command);
     
         //console.log("✅ Email sent successfully:", response.MessageId);
-        return response;
+       // return response;
       } catch (error) {
         console.error("❌ Error sending email:", error);
         throw error;
