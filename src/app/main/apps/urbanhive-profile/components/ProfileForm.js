@@ -206,7 +206,7 @@ const notifySkip = (message) => toast.error(message, {
               "phone",
               "state",
               "interests", // uncomment later
-              "triggers",
+              //"triggers",
               "companyName",
               "workAnniversary",
               "birthday",
@@ -225,7 +225,7 @@ const notifySkip = (message) => toast.error(message, {
       
             // helper function to validate frequency
             const validateFrequency = (value) => {
-              if (!value) return "1 month"; // default if missing
+              if (!value) return "none"; // default if missing
               const regex = /^(\d{1,2})\s*months?$/i; // e.g. "3 month" or "3 months"
               const match = value.match(regex);
       
@@ -237,7 +237,7 @@ const notifySkip = (message) => toast.error(message, {
                 }
               }
               // fallback
-              return "1 month";
+              return "none";
             };
 
             //TRYING TO PROCESS FIELDS NOW

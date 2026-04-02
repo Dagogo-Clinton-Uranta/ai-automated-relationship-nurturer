@@ -22,7 +22,7 @@ const schema = yup.object().shape({
   // displayName: yup.string().required('You must enter display name'),
   fName: yup.string().required('You must enter first name'),
   lName: yup.string().required('You must enter last name'),
-  phone: yup.number().required('You must enter phone number'),
+  /*phone: yup.number().required('You must enter phone number'),*/
   email: yup.string().email('You must enter a valid email').required('You must enter a email'),
   password: yup
     .string()
@@ -72,6 +72,8 @@ function RegisterForm(props) {
   
   const [password, setPassword] = useState('');
   const [cpassword, setCpassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const { isLoading, error2, message2 } = useSelector((state) => state.login)
@@ -136,6 +138,8 @@ useEffect(()=>{
     const phone = model.phone;
     const password = model.password;
     const user = { name, email, phone, password,companyID:companyID };
+
+ 
     dispatch(signup(user, history,notifySkip));
   }
 
@@ -312,14 +316,14 @@ useEffect(()=>{
           )}
         />
 
+        {/*DONT NEED PHONE NUMBER ANYMORE
          <Controller
           name="phone"
           control={control}
           render={({ field }) => (
             <TextField
               {...field}
-              // value={email}
-              // onChange={(e) => setEmail(e.target.value)}
+              
               className="mb-16"
               type="text"
               error={!!errors.phone}
@@ -339,62 +343,69 @@ useEffect(()=>{
             />
           )}
         />
+     */}
 
-        <Controller
-          name="password"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              // value={password}
-              // onChange={(e) => setPassword(e.target.value)}
-              className="mb-16"
-              type="password"
-              label="Password"
-              error={!!errors.password}
-              helperText={errors?.password?.message}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Icon className="text-20" color="action">
-                      vpn_key
-                    </Icon>
-                  </InputAdornment>
-                ),
-              }}
-              variant="outlined"
-              required
-            />
-          )}
-        />
+<Controller
+  name="password"
+  control={control}
+  render={({ field }) => (
+    <TextField
+      {...field}
+      className="mb-16"
+      type={showPassword ? "text" : "password"}
+      label="Password"
+      error={!!errors.password}
+      helperText={errors?.password?.message}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <Icon
+              className="text-20 cursor-pointer"
+              color="action"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? "visibility_off" : "visibility"}
+            </Icon>
+          </InputAdornment>
+        ),
+      }}
+      variant="outlined"
+      required
+    />
+  )}
+/>
 
-        <Controller
-          name="passwordConfirm"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              // value={cpassword}
-              // onChange={(e) => setCpassword(e.target.value)}
-              className="mb-16"
-              type="password"
-              label="Confirm Password"
-              error={!!errors.passwordConfirm}
-              helperText={errors?.passwordConfirm?.message}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Icon className="text-20" color="action">
-                      vpn_key
-                    </Icon>
-                  </InputAdornment>
-                ),
-              }}
-              variant="outlined"
-              required
-            />
-          )}
-        />
+<Controller
+  name="passwordConfirm"
+  control={control}
+  render={({ field }) => (
+    <TextField
+      {...field}
+      className="mb-16"
+      type={showConfirmPassword ? "text" : "password"}
+      label="Confirm Password"
+      error={!!errors.passwordConfirm}
+      helperText={errors?.passwordConfirm?.message}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <Icon
+              className="text-20 cursor-pointer"
+              color="action"
+              onClick={() =>
+                setShowConfirmPassword((prev) => !prev)
+              }
+            >
+              {showConfirmPassword ? "visibility_off" : "visibility"}
+            </Icon>
+          </InputAdornment>
+        ),
+      }}
+      variant="outlined"
+      required
+    />
+  )}
+/>
 
         <Button
           type="submit"
