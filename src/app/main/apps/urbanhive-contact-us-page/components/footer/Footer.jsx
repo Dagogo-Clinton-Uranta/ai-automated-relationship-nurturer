@@ -23,7 +23,12 @@ const Footer = () => {
  /*const navigate = useNavigate()*/
 
   return (
-    <footer>
+    <footer style={{
+      position: "fixed",
+      bottom: 0,
+      left: 0,
+      width: "100%",
+    }}>
       {/*< img src={navIcon} href="#" className='footer__logo'/>*/}
 
       <div className='permalinks'>

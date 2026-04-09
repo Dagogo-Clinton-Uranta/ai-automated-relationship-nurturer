@@ -4,7 +4,7 @@ import { TextField, Button } from '@mui/material';
 
 const ContactUs = () => {
   return (
-    <section id="contact" style={{ width: '100%',height:"100%",marginBottom:"-2rem", padding: '4rem 2rem', boxSizing: 'border-box' }}>
+    <section id="contact" style={{ width: '100%',height:"100vh",marginBottom:"0rem", padding: '10rem 2rem', boxSizing: 'border-box' }}>
       <div className="contact-container" style={{
         display: 'flex',
         flexWrap: 'wrap',
