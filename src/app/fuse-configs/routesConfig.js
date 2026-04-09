@@ -12,6 +12,8 @@ import { Redirect } from 'react-router-dom';
 import FuseLoading from '@fuse/core/FuseLoading';
 import LandingPageConfig from 'app/main/apps/urbanhive-landing-page/LandingPageConfig';
 
+
+
 const routeConfigs = [
   ...appsConfigs,
   // ...pagesConfigs,
@@ -23,6 +25,7 @@ const routeConfigs = [
   // RegisterConfig,
   LogoutConfig,
   LandingPageConfig,
+  
   CallbackConfig,
 ];
 

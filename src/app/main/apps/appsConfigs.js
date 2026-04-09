@@ -41,6 +41,7 @@ import ForgotPasswordConfig from './urbanhive-forgot-password/ForgotPasswordConf
 import EventsAppConfig from './urbanhive-events/EventsAppConfig';
 import InteractionPageConfig from './urbanhive-interactions/InteractionsPageConfig';
 import MessageViewPageConfig from './urbanhive-message-view/MessageViewPageConfig';
+import ContactUsPageConfig from './urbanhive-contact-us-page/ContactUsPageConfig';
 
 const appsConfigs = [
   LoginConfig,
@@ -73,6 +74,7 @@ const appsConfigs = [
   EventsAppConfig,
   InteractionPageConfig,
   MessageViewPageConfig,
+  ContactUsPageConfig,
   // AnalyticsDashboardAppConfig,
   // ProjectDashboardAppConfig,
   // MailAppConfig,
