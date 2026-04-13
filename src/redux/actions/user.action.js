@@ -48,6 +48,79 @@ const toDateString = (value) => {
 
   return new Date().toISOString();
 };
+
+const normalizeDistributionKey = (messageType) => {
+  const normalizedMessageType = String(messageType || '')
+    .trim()
+    .toLowerCase();
+
+  if (['birthday', 'holiday', 'event'].includes(normalizedMessageType)) {
+    return 'events';
+  }
+
+  if (normalizedMessageType === 'newsletter') {
+    return 'newsletters';
+  }
+
+  if (['touch', 'touches', 'email'].includes(normalizedMessageType)) {
+    return 'touches';
+  }
+
+  return null;
+};
+
+const updateCompanyEmailDistribution = async (contact, messageType) => {
+  const contactOwnerId =
+    contact?.contacterId;
+
+  if (!contactOwnerId) {
+    console.log('Skipping email distribution update: missing contact owner id=======>>>>>>>>>>>>>>>>>');
+    return false;
+  }
+
+  const userSnapshot = await db.collection('users').where('uid', '==', contactOwnerId).limit(1).get();
+
+  if (userSnapshot.empty) {
+    console.log(`Skipping email distribution update: no user found for uid ${contactOwnerId}=======>>>>>>>>>>>>>>>>>`);
+    return false;
+  }
+
+  const userData = userSnapshot.docs[0].data();
+  const companyId = userData?.companyID || userData?.companyId;
+
+  if (!companyId) {
+    console.log(`Skipping email distribution update: user ${contactOwnerId} has no company id=======>>>>>>>>>>>>>>>>>`);
+    return false;
+  }
+
+  const companySnapshot = await db
+    .collection('companies')
+    .where('companyID', '==', companyId)
+    .limit(1)
+    .get();
+
+  const companyRef = companySnapshot.empty
+    ? db.collection('companies').doc(companyId)
+    : companySnapshot.docs[0].ref;
+
+  const distributionKey = normalizeDistributionKey(messageType);
+
+  if (!distributionKey) {
+    console.log(`Skipping email distribution update: unsupported message type ${messageType}=======>>>>>>>>>>>>>>>>>`);
+    return false;
+  }
+
+  await companyRef.set(
+    {
+      emailDistribution: {
+        [distributionKey]: firebase.firestore.FieldValue.increment(1),
+      },
+    },
+    { merge: true }
+  );
+
+  return true;
+};
   
 
 export const fetchAllUsers = (uid) => async (dispatch) => {
@@ -564,6 +637,12 @@ switch (cardType) {
           messageQueue: updatedMessageQueue,
           sendDate:contactDoc.data().frequencyInDays
         });
+
+        try {
+          await updateCompanyEmailDistribution(data, latest?.messageType);
+        } catch (distributionError) {
+          console.warn('Email distribution update failed:', distributionError);
+        }
 
 
     await db.collection("contacts").doc(data && data.uid).get().then(async(doc)=>{
