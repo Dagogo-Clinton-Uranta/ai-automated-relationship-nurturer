@@ -48,6 +48,278 @@ const toDateString = (value) => {
 
   return new Date().toISOString();
 };
+
+const normalizeDistributionKey = (messageType) => {
+  const normalizedMessageType = String(messageType || '')
+    .trim()
+    .toLowerCase();
+
+  if (['birthday', 'holiday', 'event'].includes(normalizedMessageType)) {
+    return 'events';
+  }
+
+  if (normalizedMessageType === 'newsletter') {
+    return 'newsletters';
+  }
+
+  if (['touch', 'touches', 'email'].includes(normalizedMessageType)) {
+    return 'touches';
+  }
+
+  return null;
+};
+
+const resolveUserByUid = async (uid) => {
+  if (!uid) {
+    return null;
+  }
+
+  const userDoc = await db.collection('users').doc(uid).get();
+
+  if (userDoc.exists) {
+    return userDoc;
+  }
+
+  const userSnapshot = await db.collection('users').where('uid', '==', uid).limit(1).get();
+
+  if (userSnapshot.empty) {
+    return null;
+  }
+
+  return userSnapshot.docs[0];
+};
+
+const updateCompanyEmailDistribution = async (contact, messageType, ownerUser = null) => {
+  const contactOwnerId =
+    contact?.contacterId || ownerUser?.uid || ownerUser?.id || null;
+  const ownerCompanyId = ownerUser?.companyID || ownerUser?.companyId || null;
+console.log("CONTACT IN EMAIL DISTRIBUTION UPDATE FUNCTION IS ===========>>>>>>>>>>>",contact)
+  console.log('[emailDistribution] start', {
+    contactUid: contact?.uid,
+    contactEmail: contact?.email,
+    contactOwnerId,
+    ownerCompanyId,
+    messageType,
+  });
+
+  let companyId = ownerCompanyId;
+  let userData = ownerUser || null;
+
+  if (!companyId) {
+    if (!contactOwnerId) {
+      console.log('Skipping email distribution update: missing contact owner id and company id=======>>>>>>>>>>>>>>>>>');
+      return false;
+    }
+
+    const userDoc = await resolveUserByUid(contactOwnerId);
+
+    if (!userDoc) {
+      console.log(`Skipping email distribution update: no user found for uid ${contactOwnerId}=======>>>>>>>>>>>>>>>>>`);
+      return false;
+    }
+
+    userData = userDoc.data();
+    companyId = userData?.companyID || userData?.companyId;
+  }
+
+  console.log('[emailDistribution] resolved user/company', {
+    contactOwnerId,
+    userUid: userData?.uid || userData?.id || null,
+    companyId,
+  });
+
+  if (!companyId) {
+    console.log(`Skipping email distribution update: user ${contactOwnerId} has no company id=======>>>>>>>>>>>>>>>>>`);
+    return false;
+  }
+
+  const companySnapshot = await db
+    .collection('companies')
+    .where('companyID', '==', companyId)
+    .limit(1)
+    .get();
+
+  const companyRef = companySnapshot.empty
+    ? db.collection('companies').doc(companyId)
+    : companySnapshot.docs[0].ref;
+
+  console.log('[emailDistribution] company target', {
+    companyId,
+    companyDocId: companyRef.id,
+    companyRefPath: companyRef.path,
+  });
+
+  const distributionKey = normalizeDistributionKey(messageType);
+
+  if (!distributionKey) {
+    console.log(`Skipping email distribution update: unsupported message type ${messageType}=======>>>>>>>>>>>>>>>>>`);
+    return false;
+  }
+
+  await companyRef.set(
+    {
+      emailDistribution: {
+        [distributionKey]: firebase.firestore.FieldValue.increment(1),
+      },
+    },
+    { merge: true }
+  );
+
+  console.log('[emailDistribution] updated', {
+    companyId,
+    companyDocId: companyRef.id,
+    distributionKey,
+  });
+
+  return true;
+};
+
+const createEmptyRollingMonthlyActivity = () => ({
+  1: 0,
+  2: 0,
+  3: 0,
+  4: 0,
+  5: 0,
+  6: 0,
+});
+
+const normalizeRollingMonthlyActivity = (monthlyActivity = {}) => {
+  const normalized = createEmptyRollingMonthlyActivity();
+
+  for (let slot = 1; slot <= 6; slot += 1) {
+    normalized[slot] = Number(monthlyActivity?.[slot] || monthlyActivity?.[String(slot)] || 0);
+  }
+
+  return normalized;
+};
+
+const shiftRollingMonthlyActivity = (monthlyActivity = {}, monthsPassed = 0) => {
+  const shiftedActivity = normalizeRollingMonthlyActivity(monthlyActivity);
+
+  if (!monthsPassed) {
+    return shiftedActivity;
+  }
+
+  if (monthsPassed >= 6) {
+    return createEmptyRollingMonthlyActivity();
+  }
+
+  for (let step = 0; step < monthsPassed; step += 1) {
+    shiftedActivity[1] = shiftedActivity[2];
+    shiftedActivity[2] = shiftedActivity[3];
+    shiftedActivity[3] = shiftedActivity[4];
+    shiftedActivity[4] = shiftedActivity[5];
+    shiftedActivity[5] = shiftedActivity[6];
+    shiftedActivity[6] = 0;
+  }
+
+  return shiftedActivity;
+};
+
+const updateCompanyMonthlyActivity = async (contact, ownerUser = null) => {
+  const contactOwnerId = contact?.contacterId || ownerUser?.uid || ownerUser?.id || null;
+  const ownerCompanyId = ownerUser?.companyID || ownerUser?.companyId || null;
+
+  console.log('[monthlyActivity] start', {
+    contactUid: contact?.uid,
+    contactEmail: contact?.email,
+    contactOwnerId,
+    ownerCompanyId,
+  });
+
+  let companyId = ownerCompanyId;
+  let userData = ownerUser || null;
+
+  if (!companyId) {
+    if (!contactOwnerId) {
+      console.log('Skipping monthly activity update: missing contact owner id and company id=======>>>>>>>>>>>>>>>>>');
+      return false;
+    }
+
+    const userDoc = await resolveUserByUid(contactOwnerId);
+
+    if (!userDoc) {
+      console.log(`Skipping monthly activity update: no user found for uid ${contactOwnerId}=======>>>>>>>>>>>>>>>>>`);
+      return false;
+    }
+
+    userData = userDoc.data();
+    companyId = userData?.companyID || userData?.companyId;
+  }
+
+  console.log('[monthlyActivity] resolved user/company', {
+    contactOwnerId,
+    userUid: userData?.uid || userData?.id || null,
+    companyId,
+  });
+
+  if (!companyId) {
+    console.log(`Skipping monthly activity update: user ${contactOwnerId} has no company id=======>>>>>>>>>>>>>>>>>`);
+    return false;
+  }
+
+  const companySnapshot = await db
+    .collection('companies')
+    .where('companyID', '==', companyId)
+    .limit(1)
+    .get();
+
+  const companyRef = companySnapshot.empty
+    ? db.collection('companies').doc(companyId)
+    : companySnapshot.docs[0].ref;
+
+  console.log('[monthlyActivity] company target', {
+    companyId,
+    companyDocId: companyRef.id,
+    companyRefPath: companyRef.path,
+  });
+
+  const companyDoc = await companyRef.get();
+  const companyData = companyDoc.exists ? companyDoc.data() : {};
+  const currentMonthIndex = new Date().getMonth() + 1;
+  const monthlyActivityMeta = companyData?.monthlyActivityMeta || {};
+  const hasRollingMonthlyActivity = [1, 2, 3, 4, 5, 6].some((slot) =>
+    Object.prototype.hasOwnProperty.call(companyData?.monthlyActivity || {}, slot)
+    || Object.prototype.hasOwnProperty.call(companyData?.monthlyActivity || {}, String(slot))
+  );
+
+  let updatedMonthlyActivity;
+
+  if (!hasRollingMonthlyActivity) {
+    updatedMonthlyActivity = createEmptyRollingMonthlyActivity();
+  } else {
+    const previousMonthIndex = Number(monthlyActivityMeta.currentMonthIndex);
+    const monthsPassed = previousMonthIndex
+      ? ((currentMonthIndex - previousMonthIndex + 12) % 12)
+      : 0;
+
+    updatedMonthlyActivity = shiftRollingMonthlyActivity(companyData?.monthlyActivity || {}, monthsPassed);
+  }
+
+  updatedMonthlyActivity[6] = Number(updatedMonthlyActivity[6] || 0) + 1;
+
+  console.log('[monthlyActivity] update payload', {
+    companyId,
+    companyDocId: companyRef.id,
+    currentMonthIndex,
+    previousMonthIndex: monthlyActivityMeta.currentMonthIndex || null,
+    hasRollingMonthlyActivity,
+    updatedMonthlyActivity,
+  });
+
+  await companyRef.set(
+    {
+      monthlyActivity: updatedMonthlyActivity,
+      monthlyActivityMeta: {
+        currentMonthIndex,
+        lastUpdatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      },
+    },
+    { merge: true }
+  );
+
+  return true;
+};
   
 
 export const fetchAllUsers = (uid) => async (dispatch) => {
@@ -530,6 +802,13 @@ switch (cardType) {
         console.log("RESULT IS=====>",result)
       if (result.success) {
         notifyInvite("Email sent out successfully");
+        console.log('[sendEmailToContact] send success=========>>>>>>>>', {
+          contactUid: data?.uid,
+          contactEmail: data?.email,
+          contactOwnerId: data?.contacterId,
+          companyId: user?.companyID || user?.companyId || null,
+          messageType: latest?.messageType,
+        });
 
 
 
@@ -564,6 +843,18 @@ switch (cardType) {
           messageQueue: updatedMessageQueue,
           sendDate:contactDoc.data().frequencyInDays
         });
+
+        try {
+          await updateCompanyEmailDistribution(data, latest?.messageType, user);
+        } catch (distributionError) {
+          console.log('Email distribution update failed========>>>>>>>', distributionError);
+        }
+
+        try {
+          await updateCompanyMonthlyActivity(data, user);
+        } catch (monthlyActivityError) {
+          console.log('Monthly activity update failed=======>>>>>>>>', monthlyActivityError);
+        }
 
 
     await db.collection("contacts").doc(data && data.uid).get().then(async(doc)=>{

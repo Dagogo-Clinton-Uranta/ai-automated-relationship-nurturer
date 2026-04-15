@@ -318,7 +318,13 @@ const sesClient = new SESClient({
 
 
 export const logout = (history) => async (dispatch) => {
-  dispatch(updateLastActive(fb.auth().currentUser.uid));
+  const currentUser = fb.auth().currentUser;
+  // console.log('Logging out currentUser=======>>>>>>> ', currentUser);
+
+  if (currentUser?.uid) {
+    dispatch(updateLastActive(currentUser.uid));
+  }
+
   fb.auth().signOut().then(() => {
     //console.log('logout successful!');
     dispatch(clearProfile());
