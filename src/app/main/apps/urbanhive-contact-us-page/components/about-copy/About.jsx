@@ -1,8 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 //import './contact.css';
 import { TextField, Button } from '@mui/material';
+import axios from 'axios';
 
 const ContactUs = () => {
+
+
+  const [user, setUser] = useState({
+    name: '',
+    email: '',
+    phoneNumber: '',
+    comment: '',
+  });
+
+  const handleChange = (field) => (e) => {
+    setUser({ ...user, [field]: e.target.value });
+  };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const emailHTML = `
+      <h2>New Contact Message</h2>
+
+      <p>${user.comment}</p>
+
+      <br/>
+
+      <p>
+      User Details:<br/>
+        Name: ${user.name} <br/>
+        Email: ${user.email} <br/>
+        Phone: ${user.phoneNumber}
+      </p>
+    `;
+
+    try {
+      const response = await axios.post(
+        "https://nurturer-sendgrid-backend.vercel.app/send-email",
+        {
+          to: 'nealluslabs@gmail.com',
+          subject: "New Message From Contact Page!",
+          htmlMessage: emailHTML,
+          name: user.name,
+          userEmail: user.email,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("CONTACTS PAGE RESPONSE IS=====>", response.data);
+    } catch (error) {
+      console.error("CONTACTS PAGE ERROR=====>", error);
+    }
+  };
+
+
+
+
+
   return (
     <section id="contact" style={{ width: '100%',height:"100vh",marginBottom:"0rem", padding: '10rem 2rem', boxSizing: 'border-box' }}>
       <div className="contact-container" style={{
@@ -41,29 +101,46 @@ const ContactUs = () => {
           borderRadius: '12px',
           boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
         }}>
-          <form className="contact-form" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <TextField label="Name" variant="outlined" fullWidth required />
-            <TextField label="Email" type="email" variant="outlined" fullWidth required />
-            <TextField label="Phone Number" type="tel" variant="outlined" fullWidth />
-            <TextField
-              label="Comment"
-              variant="outlined"
-              fullWidth
-              multiline
-              rows={6}
-              required
-            />
-           {/* <Button variant="contained" 
-            style={{ backgroundColor: "#fff6bd",
-            color: 'black',}}
-             size="large">
-              Submit
-            </Button>
-      */}
+          <form onSubmit={handleSubmit}  className="contact-form" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <TextField
+             label="Name"
+             fullWidth
+             required
+             value={user.name}
+             onChange={handleChange('name')}
+           />
+         
+           <TextField
+             label="Email"
+             type="email"
+             fullWidth
+             required
+             value={user.email}
+             onChange={handleChange('email')}
+           />
+         
+           <TextField
+             label="Phone Number"
+             type="tel"
+             fullWidth
+             value={user.phoneNumber}
+             onChange={handleChange('phoneNumber')}
+           />
+         
+           <TextField
+             label="Comment"
+             multiline
+             rows={6}
+             fullWidth
+             required
+             value={user.comment}
+             onChange={handleChange('comment')}
+           />
+      
 
 
             <button 
-             
+             type="submit"
           style={{ 
             width:"10rem",
             margin:"0 auto",

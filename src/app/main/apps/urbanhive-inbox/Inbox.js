@@ -289,7 +289,7 @@ let [defaultCards,setDefaultCards] = useState(user.cards  && user.cards)
     }
   }, [chatMessages]);
 
- 
+  
 
   useEffect(() => {
 
@@ -1010,7 +1010,7 @@ const stripEmojis = (text = "") => text.replace(/[\p{Emoji_Presentation}\p{Exten
            – {point.bulletPointRest}{" "} 
           
         </span>
-       {!(selectedChatUser.name === 'Emily Whiter' || selectedChatUser.name === 'Bob Johnsons') &&<> <br /><br /> </>}
+       {!(selectedChatUser.name === 'Emily Whiterrr' || selectedChatUser.name === 'Bob Johnsonsss') &&<> <br /><br /> </>}
         </>
       ))
        }
