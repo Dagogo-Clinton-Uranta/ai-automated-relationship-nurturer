@@ -1021,7 +1021,7 @@ export const generateAiMessage = (messageType="Holiday",Frequency,Name,JobTitle,
   //const apiEndpoint =`https://nurturer-helper-api.vercel.app/api/om/chatgpt`
  const apiEndpoint =`https://pmserver.vercel.app/api/om/chatgpt`
 
-  //const apiEndpoint =`http://localhost:5008/api/om/chatgpt`
+  //const apiEndpoint =`http://localhost:5008/api/om/chatgpt` 
 
 //console.log("USER BEING PASSED INTO GENERATE AI MESSAGE--->",user)
 
