@@ -1108,7 +1108,7 @@ const prompt =
 
      const fullJobDetailsResponse = jobResponse.data?jobResponse.data: user.queryMsg && user.queryMsg.filter((msg)=>(msg.messageType === messageType)) ?user.queryMsg.filter((msg)=>(msg.messageType === messageType))[0]   :user.queryMsg && user.queryMsg[0] /* JSON.parse(jobResponse.data)*/
 
-     console.log("OUR RESPONSE FROM OUR BACKEND, WHICH CALLS CHAT GPT, IN THIS CASE OUR PROMPT-->",fullJobDetailsResponse)
+     console.log("OUR RESPONSE FROM OUR BACKEND, WHICH CALLS CHAT GPT, IN THIS CASE OUR PROMPT-->",jobResponse.data)
 
      if(fullJobDetailsResponse){
       const createdAt = new Date();
@@ -1237,7 +1237,7 @@ export const updateUserBroadcast = (updatedParagraphs,user,selectedChatUser) => 
       
           const userData = doc.data();
       
-          let updatedMessage = { ...userData.message };
+          let updatedMessage = userData.queryMsg ?{ ...userData.queryMsg[0]  }:{};
       
           const createdAtValue = updatedParagraphs?.createdAt ?? new Date();
           const dateStringValue = toDateString(createdAtValue);
