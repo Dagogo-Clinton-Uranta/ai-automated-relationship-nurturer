@@ -443,13 +443,13 @@ console.log("WE SET PARAGRAPHS TO ---->",editedParagraphs)
         setShowAiMenu(false); // Close menu after selection
        
 
-        //UNCOMMENT THIS WHEN DONE TESTING
-       // const canGenerate = selectedChatUser && onlyPendingMessages && onlyPendingMessages.length && onlyPendingMessages.every((msg) => msg.messageStatus !== "Pending" ) ||selectedChatUser && onlyPendingMessages && onlyPendingMessages.length === 0;
+        
+       const canGenerate = selectedChatUser && onlyPendingMessages && onlyPendingMessages.length && onlyPendingMessages.every((msg) => msg.messageStatus !== "Pending" ) ||selectedChatUser && onlyPendingMessages && onlyPendingMessages.length === 0;
 
-       // if (!canGenerate) {
-       //   notifySkipCustom("You can't generate a new message until your previous message has been sent!");
-       //   return;
-       // }
+        if (!canGenerate) {
+          notifySkipCustom("You can't generate a new message until your previous message has been sent!");
+          return;
+        }
 
         // Dispatch based on type
         if (messageType === 'Touch') {
