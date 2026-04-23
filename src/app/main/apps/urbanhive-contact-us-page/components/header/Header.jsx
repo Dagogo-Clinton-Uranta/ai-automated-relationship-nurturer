@@ -26,77 +26,9 @@ const DummyHeader = () => {
   return (
     
    
-    <header className="header-pm">
-    <Nav/>
-    <div className="container-pm header__container-1">
-      
-
-      <div className="headerExplainer">
-         <h1 className="text-light" style={{marginBottom:"0rem",color:"white",fontWeight:"700",fontSize:"2.8rem"}}> Thoughtful Touches Without The Thinking</h1>
-   
-         
-            <p className="text-light" style={{maxWidth:"50%",margin:"0 auto",marginBottom:"2rem",marginTop:"2rem",fontSize:"1.5rem",color:"white"}}>
-              AI-powered nurturing that delivers timely,
-              personal touchpoints—automatically. Stay top
-              of mind with content your prospects actually
-              care about, without the manual work
-           </p>
-        
-   
-           <div className="header-btn-placement" >
-           
-           
-   
-             {/* <button className="welcome-btn"
-              
-              style={{width:"180px",
-              height:"50px",
-              display:"inline-block",
-              //backgroundColor: "#000000",
-              backgroundColor: "#fff6bd",
-              color:"black",
-              padding:"0.75rem 1.2rem", 
-              cursor:"pointer",
-              borderRadius: "5px",
-             
-              textAlign: "center",
-              marginTop: "3rem",
-              fontSize: "1.4rem"}}
-              
-              onClick ={()=>{history.push('/login')}} >
-                Login
-              </button>*/}
-
-              <button 
-              onClick ={()=>{/*dispatch(setRecruiter(false));dispatch(setDemo(true));*/history.push('/login')}}
-          style={{ 
-            backgroundColor: "#fff6bd",
-            color: 'black',
-            padding: '10px 20px',
-            borderRadius: '8px',
-            textTransform: 'none', 
-            '&:hover': {
-              background: 'linear-gradient(to right, #5c0fb8, #a734ff)',
-            },
-          }}
-        >
-            
-            Login
-           </button>
-     
-              {/*<a href={'https://onerecruiter-recruiter.netlify.app/login'}>
-              <button onClick ={()=>{/navigate('/login')}} className="btn">
-                Recruiter
-              </button>
-     
-              </a>*/}
-            </div>
-
-      </div>
-     
+    <header className="header-pm-contact-us" style={{backgroundColor:"#21C9CF"}}>
+    <Nav/> 
     
-
-    </div>
     </header>
     
   )

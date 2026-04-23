@@ -1,4 +1,4 @@
-.header-pm {
+.header-pm-contact-us {
    /* height:100vh;
     padding-top: 7rem;
     overflow:visible;*/
@@ -9,7 +9,7 @@
     /*background:linear-gradient(0deg, rgba(59, 76, 166, 0.6), rgba(59, 76, 166, 0.6)), url('src/assets/images/officeresearch.jpeg');*/
     background:linear-gradient(0deg, #21C9CF, #21C9CF);
     background:"#21C9CF";
-    background-size:cover;
+    background-size:90px;
 
     display: flex;
     align-items: center;

@@ -66,7 +66,7 @@ function LandingPage() {
 
       <div className="welcomePage baskerville" style={{backgroundColor:"white"}}>
      
-      {/*<DummyHeader />*/}
+      {<DummyHeader />}
       {<DummyAbout/>}
       {/*<DummyAbout2/>
       <DummyAbout3/>*/}
