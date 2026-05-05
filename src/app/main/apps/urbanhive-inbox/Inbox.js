@@ -446,7 +446,9 @@ console.log("WE SET PARAGRAPHS TO ---->",editedParagraphs)
         
        const canGenerate = selectedChatUser && onlyPendingMessages && onlyPendingMessages.length && onlyPendingMessages.every((msg) => msg.messageStatus !== "Pending" ) ||selectedChatUser && onlyPendingMessages && onlyPendingMessages.length === 0;
 
-        if (!canGenerate) {
+
+       //remember to switch condition back after testing- dagogo may 4th
+        if (/*canGenerate*/!canGenerate) {
           notifySkipCustom("You can't generate a new message until your previous message has been sent!");
           return;
         }

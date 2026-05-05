@@ -277,8 +277,11 @@ console.log("ALL USERS/CONTACTS FOR GOD SAKE-->",filteredContacts)
                     <button 
                      onClick ={()=>{}}
                  style={{ 
-                   backgroundColor: "#fff6bd",
+                   /*backgroundColor: "#fff6bd",*/
+                   backgroundColor: "#FFF",
+                   border:"1px solid lightgray",
                    color: 'black',
+                   marginRight:"8px",
                    height:"2.6rem",
                    padding: '10px 20px',
                    borderRadius: '2px',
