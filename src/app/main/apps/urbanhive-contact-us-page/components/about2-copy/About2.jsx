@@ -32,6 +32,8 @@ const DummyAbout2 = () => {
          Effortless nurturing. Once set up, the system works for you—sending on your behalf with your sign-off. No writing, automatic scheduling, just nurturing made easy.
         </p>
 
+        
+
        {/*<div className = "about-btn-placement" >
         <button   onClick={()=>{navigate('/login')}} className="btn ">
            Get Started 

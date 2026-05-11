@@ -74,6 +74,7 @@ const DummyHeader = () => {
             color: 'black',
             padding: '10px 20px',
             borderRadius: '8px',
+            width:"12rem",
             textTransform: 'none', 
             '&:hover': {
               background: 'linear-gradient(to right, #5c0fb8, #a734ff)',
@@ -83,6 +84,25 @@ const DummyHeader = () => {
             
             Login
            </button>
+
+           <button 
+              onClick ={()=>{history.push('/contact-us')}}
+          style={{ 
+            backgroundColor: "#fff6bd",
+            color: 'black',
+            padding: '10px 20px',
+            borderRadius: '8px',
+            width:"12rem",
+            textTransform: 'none', 
+            '&:hover': {
+              background: 'linear-gradient(to right, #5c0fb8, #a734ff)',
+            },
+          }}
+        >
+            
+            Contact Us
+           </button>
+     
      
               {/*<a href={'https://onerecruiter-recruiter.netlify.app/login'}>
               <button onClick ={()=>{/navigate('/login')}} className="btn">

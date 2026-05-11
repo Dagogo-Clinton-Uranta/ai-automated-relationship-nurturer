@@ -41,6 +41,11 @@ const DummyAbout3 = () => {
          Be seen as precise and not noise. Our system helps you identify the best moments to re-engage, making every ask feel natural, not random—like following up after a trigger event or before a key decision window.
         </p>
 
+        <p style={{fontSize:"1.8rem",marginTop:"15px"}}>
+        No writing, automatic scheduling, just nurturing made easy.
+        </p>
+
+
        {/*<div className = "about-btn-placement" >
         <button   onClick={()=>{navigate('/login')}} className="btn ">
            Get Started 

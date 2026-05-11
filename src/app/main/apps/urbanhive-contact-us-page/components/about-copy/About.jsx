@@ -82,10 +82,10 @@ const ContactUs = () => {
           textAlign: 'center',
           padding: '2rem'
         }}>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '1.5rem' }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '1.5rem',color:"#5A5A5A" }}>
             We are here to help
           </h2>
-          <p style={{ fontSize: '1.25rem', lineHeight: '1.6',marginBottom: '1.5rem' }}>
+          <p style={{ fontSize: '1.25rem', lineHeight: '1.6',marginBottom: '1.5rem',color:"#5A5A5A" }}>
            We’d love to hear from you. Whether you have a question, feedback, or just want
             to connect, send us a message and we’ll respond shortly.
           </p>
