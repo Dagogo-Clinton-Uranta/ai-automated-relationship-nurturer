@@ -18,27 +18,24 @@ const DummyAbout = () => {
 
     <section id='about' >
 
-    <p style={{fontWeight:"700",fontSize:"3.5rem",color:"#000",paddingBottom:"1rem",paddingLeft:"0.8rem",paddingRight:"0.8rem",borderBottom:"1px solid #40255F",width:"max-content",margin:"0 auto",marginBottom:"2rem",marginTop:"3rem"}}> The Solution{/*<span className="text-accent">  get the Job! </span>*/}</p>
+    <p style={{fontWeight:"700",fontSize:"3.5rem",paddingBottom:"1rem",paddingLeft:"0.8rem",paddingRight:"0.8rem",borderBottom:"1px solid #40255F",width:"max-content",margin:"0 auto",marginBottom:"2rem",marginTop:"3rem"}}> The Solution{/*<span className="text-accent">  get the Job! </span>*/}</p>
     <div className="container-hp about__container" style ={{marginTop:"2rem",}}>
        
 
 
-    {<div className='aboutCTA1'>
     
- 
-    <img  className='CTAboximg1' src={everyTouchpointIsPersonal} alt="search image"/>
-    
-       
-        
-        </div>}
-       
 
       <div className="aboutExplainer">
-      <h1 style={{fontWeight:"700",color:"#000",fontSize:"2.8rem"}}> Every Touchpoint is Personal{/*<span className="text-accent">  get the Job! </span>*/}</h1>
+      <h1 style={{fontWeight:"700",fontSize:"2.8rem"}}> Every Touchpoint is Personal{/*<span className="text-accent">  get the Job! </span>*/}</h1>
 
-         <p style={{fontSize:"1.8rem"}}>
+         <p style={{fontSize:"1.8rem",marginBottom:"15px"}}>
          Be different by showing you care. Every touchpoint is about the prospect—not your product. Share helpful and AI-powered relevant articles, 
          timely insights, holiday cards, and meaningful notes that build trust.
+         Effortless nurturing. Once set up, the system works for you—sending on your behalf with your sign-off.
+        </p>
+
+        <p style={{fontSize:"1.8rem"}}>
+        No writing, automatic scheduling, just nurturing made easy.
         </p>
 
        {/*<div className = "about-btn-placement" >
@@ -51,6 +48,17 @@ const DummyAbout = () => {
 
 
       </div>
+
+
+      {<div className='aboutCTA1'>
+    
+ 
+    <img  className='CTAboximg1' src={everyTouchpointIsPersonal} alt="search image"/>
+    
+       
+        
+        </div>}
+       
      
      {/*<div className='aboutCTA'>
     

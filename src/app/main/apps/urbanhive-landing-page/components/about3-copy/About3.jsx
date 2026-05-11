@@ -35,7 +35,7 @@ const DummyAbout3 = () => {
        
 
       <div className="aboutExplainer">
-      <h1 style={{fontWeight:"700",color:"#000",fontSize:"2.8rem"}}> Strike When the Timing’s Right{/*<span className="text-accent">  get the Job! </span>*/}</h1>
+      <h1 style={{fontWeight:"700",fontSize:"2.8rem"}}> Strike When the Timing’s Right{/*<span className="text-accent">  get the Job! </span>*/}</h1>
 
          <p style={{fontSize:"1.8rem"}}>
          Be seen as precise and not noise. Our system helps you identify the best moments to re-engage, making every ask feel natural, not random—like following up after a trigger event or before a key decision window.
