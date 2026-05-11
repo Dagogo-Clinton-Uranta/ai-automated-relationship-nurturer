@@ -26,7 +26,7 @@ const Problem = () => {
     {<div className='aboutCTA1'>
     
  
-    <img  className='CTAboximg1' src={nurtureproblem} style={{width:"100%"}} alt="search image"/>
+    <img  className='CTAboximg1' src={nurtureproblem} style={{width:"85%",height:"85%"}} alt="search image"/>
     
        
         

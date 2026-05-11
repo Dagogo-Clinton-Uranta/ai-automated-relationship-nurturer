@@ -30,7 +30,7 @@ const Nav = () => {
         <img src={navIcon} style={{width:"80px"}} alt="nurturer  logo"/>
 
         {  <a href="/contact-us" >
-          <div style={{position:"relative",top:"-2rem",left:"0rem",fontWeight:"500" }}>
+          <div style={{position:"relative",top:"-2rem",left:"0rem",fontWeight:"500",fontSize:"1.3rem" }}>
         Contact Us
         </div>
         </a>
